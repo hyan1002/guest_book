@@ -12,6 +12,8 @@ RUN mvn package -DskipTests
 FROM amazoncorretto:21.0.3
 
 WORKDIR /app
-COPY --from=builder /usr/src/guest-book/target/guest_book-0.0.1-SNAPSHOT.jar .
+# [수정 포인트] 파일명을 직접 적지 말고 *.jar를 사용하여 app.jar로 이름을 바꿉니다.
+COPY --from=builder /usr/src/guest-book/target/*.jar app.jar
 
-ENTRYPOINT ["java", "-jar", "/app/guest_book-0.0.1-SNAPSHOT.jar"]
+# [수정 포인트] 위에서 지정한 app.jar를 실행합니다.
+ENTRYPOINT ["java", "-jar", "app.jar"]
